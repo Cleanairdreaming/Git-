@@ -38,8 +38,8 @@ $ cd /target/dir/projects/first-steps
 $ git init  
 ```
 2. 首次提交  
-  第一步，add文件。  
-  第二步，commit，完成后会有一个散列值标识本次提交。  
+&#160; &#160;第一步，add文件。  
+&#160; &#160;第二步，commit，完成后会有一个散列值标识本次提交。  
 ```shell
 $ git add foo.txt bar.txt  
 $ git commit --message "Sample project imported."  
@@ -128,7 +128,7 @@ $ cd /projects/first-steps
 $ git add foo.txt  
 $ git commit -m "changes "  
 ```
-  把上述修改向共享版本库传送改提交。  
+&#160; &#160;把上述修改向共享版本库传送改提交。  
 ```shell
 $ git push /projects/first-steps-bare.git master
 ```  
