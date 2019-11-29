@@ -25,10 +25,13 @@
     - [4.3 怎样的修改不该被提交](#43-怎样的修改不该被提交)
     - [4.4 用.gitignore忽略非版本控制文件](#44-用gitignore忽略非版本控制文件)
     - [4.5 储藏](#45-储藏)
+  - [第五章 版本库](#第五章-版本库)
 
+---
 ## 第一章 基本概念  
 略  
 
+---
 ## 第二章 入门  
 ### 2.1 准备git环境  
 1. git官网下载安装git  
@@ -164,6 +167,7 @@ $ git pull /projects/first-steps-bare.git master
 * **克隆**：用**clone**创建的版本库副本被称为克隆体。  
 * **推送和拉回**：**push**和**pull**。  
 
+---
 ## 第三章 提交究竟是什么  
 通过`$ git log --stat -1`查看提交中包含的信息。主要包括：散列值（commit hash）、作者信息、时间、以及修改
 内容。  
@@ -218,6 +222,7 @@ $ git log --shortstat --oneline
 $ git log --graph --oneline  
 ```
 
+---
 ## 第四章 多次提交
 ### 4.1 status
 ```shell
@@ -286,3 +291,6 @@ $ git stash list
 # 查看栈中修改内容  
 $ git stash pop stash@{1}
 ```
+
+---
+## 第五章 版本库
