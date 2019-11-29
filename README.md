@@ -1,6 +1,6 @@
 # Git: Distributed Version Control Fundamentals and Workflows  
-Git学习指南  
-图书阅读摘记  
+  Git学习指南  
+  图书阅读摘记  
 
 ## 目录  
 
@@ -20,7 +20,7 @@ Git学习指南
     - [3.5 一种略有不同的提交查看方法](#35-一种略有不同的提交查看方法)
 
 ## 第一章 基本概念  
-略  
+  略  
 
 ## 第二章 入门  
 ### 2.1 准备git环境  
@@ -30,7 +30,7 @@ Git学习指南
 $ git config --global user.email "user@service.site"  
 ```  
 ### 2.2 第一个git项目  
-fisrt-steps目录下有两个文件，如下图所示：  
+  fisrt-steps目录下有两个文件，如下图所示：  
 ![first-steps](./images/2.1_first_steps.png)  
 1. 创建版本库
 ```shell
@@ -38,8 +38,8 @@ $ cd /target/dir/projects/first-steps
 $ git init  
 ```
 2. 首次提交  
-第一步，add文件。  
-第二步，commit，完成后会有一个散列值标识本次提交。  
+  第一步，add文件。  
+  第二步，commit，完成后会有一个散列值标识本次提交。  
 ```shell
 $ git add foo.txt bar.txt  
 $ git commit --message "Sample project imported."  
@@ -48,18 +48,18 @@ $ git commit --message "Sample project imported."
 ```shell
 $ git status  
 ```  
-用diff显示每个被修改的行  
+  用diff显示每个被修改的行  
 ```shell
 $ git diff your.file  
 ```  
 
 4. 提交修改  
-所有修改都必须先被归档成一次新提交。添加使用add命令，删除使用rm命令。  
+  所有修改都必须先被归档成一次新提交。添加使用add命令，删除使用rm命令。  
 ```shell
 $ git add your.file1 your.file2  
 $ git rm your.file3  
 ```
-然后提交修改  
+  然后提交修改  
 ```shell
 $ git commit --message "your changes"  
 $ git commit -m "your changes"  
@@ -76,47 +76,47 @@ $ git log
 $ git clone /projects/first-steps /projects/first-steps-clone
 ```
 2. 从另一版本库中获取修改  
-在原始库中常见一次新提交：  
+  在原始库中常见一次新提交：  
 ```shell
 $ cd /projects/first-steps  
 $ git add foo.txt  
 $ git commit -m "A change in the original."  
 ```
-查看修改日志  
+  查看修改日志  
 ```shell
 $ git log --oneline
 ```
-修改克隆版本库中的文件：  
+  修改克隆版本库中的文件：  
 ```shell
 $ cd /projects/first-steps-clone  
 $ git add bar.html  
 $ git commit -m "A change in the clone"  
 $ git log --oneline  
 ```
-把原版本库中的新提交克隆给它的克隆体。  
+  把原版本库中的新提交克隆给它的克隆体。  
 ```shell
 $ cd /projects/first-steps-clone  
 $ git pull  
 ```
-pull命令取回了新的修改，并于克隆体的本地修改进行对比，并在工作区合并了两边的修改，创建了一次新提交。  
-该过程就是所谓的合并（merge）。注意：合并可能会带来冲突，然后合并就会失败。图形显示修改log。  
+  pull命令取回了新的修改，并于克隆体的本地修改进行对比，并在工作区合并了两边的修改，创建了一次新提交。  
+  该过程就是所谓的合并（merge）。注意：合并可能会带来冲突，然后合并就会失败。图形显示修改log。  
 ```shell
 $ git log --graph
 ```
 
 3. 从任意版本库中取回修改  
-无参情况下，pull命令旨在克隆版本库中发挥作用。也可以用参数指定任意版本库的路径，以便从某一特定开发分支中  
+  无参情况下，pull命令旨在克隆版本库中发挥作用。也可以用参数指定任意版本库的路径，以便从某一特定开发分支中
 提取相关修改。  
-把克隆体中的修改pull到原版本库，代码如下：  
+  把克隆体中的修改pull到原版本库，代码如下：  
 ```shell
 $ cd /projects/first-steps  
 $ git pull /projects/first-steps-clone master
 ```
 
 4. 创建共享版本库  
-可以用push命令将提交传送给其他版本库。不过，push命令只适合用于那些没有开发者在上面开展具体工作的版本库。  
-最好的方法就是创建一个不带工作区的版本库（裸版本库，bare repository），可以使用`clone --bare`选项创建  
-一个裸版本库。裸版本库通常可被用来充当开发者们传递提交（使用push命令）的汇聚点，以便其他人可以从中拉回他  
+  可以用push命令将提交传送给其他版本库。不过，push命令只适合用于那些没有开发者在上面开展具体工作的版本库。
+最好的方法就是创建一个不带工作区的版本库（裸版本库，bare repository），可以使用`clone --bare`选项创建
+一个裸版本库。裸版本库通常可被用来充当开发者们传递提交（使用push命令）的汇聚点，以便其他人可以从中拉回他
 们所做的修改。  
 ```shell
 $ git clone --bare /projects/first-steps /projects/first-steps-bare.git
@@ -128,13 +128,13 @@ $ cd /projects/first-steps
 $ git add foo.txt  
 $ git commit -m "changes "  
 ```
-把上述修改向共享版本库传送改提交。  
+  把上述修改向共享版本库传送改提交。  
 ```shell
 $ git push /projects/first-steps-bare.git master
 ```  
 
 6. Pull命令：取回修改  
-让克隆版本库也得到响应的修改
+  让克隆版本库也得到响应的修改
 ```shell
 $ cd /projects/first-steps-clone  
 $ git pull /projects/first-steps-bare.git master  
@@ -151,14 +151,14 @@ $ git pull /projects/first-steps-bare.git master
 * **推送和拉回**：**push**和**pull**。  
 
 ## 第三章 提交究竟是什么  
-通过`$ git log --stat -1`查看提交中包含的信息。主要包括：散列值（commit hash）、作者信息、时间、以及修改
+  通过`$ git log --stat -1`查看提交中包含的信息。主要包括：散列值（commit hash）、作者信息、时间、以及修改
 内容。  
 ### 3.1 访问权限与时间戳  
-Git会保存每个文件所有的访问权限，但不会保留文件的修改时间。在执行检出操作时，文件的修改时间会被设置为当前
+  Git会保存每个文件所有的访问权限，但不会保留文件的修改时间。在执行检出操作时，文件的修改时间会被设置为当前
 时间。
 
 ### 3.2 add命令与commit命令  
-通过，提交中会包括当前所有的修改，新增和删除。唯一例外的就是在 **.gitignore**文件中的列出的。  
+  通过，提交中会包括当前所有的修改，新增和删除。唯一例外的就是在 **.gitignore**文件中的列出的。  
 
 ### 3.3 再谈提交散列值  
 * 提交的散列值可以在本地生成。
@@ -169,7 +169,7 @@ $ git fsck
 ```
 
 ### 3.4 提交历史
-略。
+  略。
 
 ### 3.5 一种略有不同的提交查看方法
 > 通过diff命令，比较出两次提交之间的差异  
@@ -184,7 +184,7 @@ $ git fsck
 > ```
 > 3. 限制文件范围  
 > ```shell
-> git diff 77d231f 05bcfd1 - book/bisection/  
+> $ git diff 77d231f 05bcfd1 - book/bisection/  
 > ```
 > 4. 统计修改情况
 > ```shell
