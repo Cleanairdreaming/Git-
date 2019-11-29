@@ -23,6 +23,8 @@
     - [4.1 status](#41-status)
     - [4.2 存储在暂存区中的快照](#42-存储在暂存区中的快照)
     - [4.3 怎样的修改不该被提交](#43-怎样的修改不该被提交)
+    - [4.4 用.gitignore忽略非版本控制文件](#44-用gitignore忽略非版本控制文件)
+    - [4.5 储藏](#45-储藏)
 
 ## 第一章 基本概念  
 略  
@@ -249,3 +251,38 @@ $ git reset HEAD foo.txt /src/test/
 * **reset**重置
 * 写入 _.gitignore_
 
+### 4.4 用.gitignore忽略非版本控制文件
+```shell
+#
+# Simple file path
+# 
+somehow/test.txt
+#
+# Directories ending with a "/"
+#
+generated/
+#
+# File types as glob expressions
+#
+*.bak
+#
+# "!" marked exceptions.
+#
+!demo.bak
+```
+注意： _.gitignore_ 文件中的条目只能影响还未提交有Git管理的文件。  
+
+### 4.5 储藏
+```shell
+# 储存栈（stash stack）  
+$ git stash
+
+# 恢复  
+$ git stash pop
+
+# 查看  
+$ git stash list
+
+# 查看栈中修改内容  
+$ git stash pop stash@{1}
+```
