@@ -18,6 +18,11 @@
     - [3.3 再谈提交散列值](#33-再谈提交散列值)
     - [3.4 提交历史](#34-提交历史)
     - [3.5 一种略有不同的提交查看方法](#35-一种略有不同的提交查看方法)
+    - [3.6 同一项目的多部不同历史](#36-同一项目的多部不同历史)
+  - [第四章 多次提交](#第四章-多次提交)
+    - [4.1 status](#41-status)
+    - [4.2 存储在暂存区中的快照](#42-存储在暂存区中的快照)
+    - [4.3 怎样的修改不该被提交](#43-怎样的修改不该被提交)
 
 ## 第一章 基本概念  
 略  
@@ -198,3 +203,49 @@ $ git fsck
 > # --stat选项显示文件中的修改数量  
 > $ git diff --stat 77d231f 05bcfd1  
 > ```
+
+### 3.6 同一项目的多部不同历史
+```shell
+# 部分输出  
+$ git log -n 3  # only the last three.  
+# 格式化输出： --format, --oneline. --format=fuller可显示更多细节
+$ git log --oneline  
+# 统计信息  
+$ git log --shortstat --oneline  
+# 图形显示  
+$ git log --graph --oneline  
+```
+
+## 第四章 多次提交
+### 4.1 status
+```shell
+$ git status
+$ git status --short
+```
+输出选项：  
+* changes to be committed
+* changed but not updated
+* untracked files
+
+### 4.2 存储在暂存区中的快照
+```shell
+$ git diff -staged  # stageing vs. repository  
+$ git diff  # staging vs. workspace  
+```
+### 4.3 怎样的修改不该被提交
+
+不应提交情况：  
+* 调试
+* 意外添加
+* 尚未准备好
+* 自动生成文件
+从暂存区中撤回：
+```shell
+$ git rest HEAD .  
+# or  
+$ git reset HEAD foo.txt /src/test/  
+```
+应对方法：  
+* **reset**重置
+* 写入 _.gitignore_
+
