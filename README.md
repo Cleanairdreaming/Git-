@@ -63,59 +63,64 @@ $ git rm your.file3
 ```shell
 $ git commit --message "your changes"  
 $ git commit -m "your changes"  
-```  
+```
 
 5. 显示历史  
 ```shell
 $ git log  
-```  
+```
 
 ### 2.3 Git的协作功能  
 1. 克隆版本库  
-`$ git clone /projects/first-steps /projects/first-steps-clone`  
+```shell
+$ git clone /projects/first-steps /projects/first-steps-clone
+```
 2. 从另一版本库中获取修改  
 在原始库中常见一次新提交：  
 ```shell
 $ cd /projects/first-steps  
 $ git add foo.txt  
 $ git commit -m "A change in the original."  
-```  
+```
 查看修改日志  
-`$ git log --oneline`  
+```shell
+$ git log --oneline
+```
 修改克隆版本库中的文件：  
 ```shell
 $ cd /projects/first-steps-clone  
 $ git add bar.html  
 $ git commit -m "A change in the clone"  
 $ git log --oneline  
-```  
+```
 把原版本库中的新提交克隆给它的克隆体。  
 ```shell
 $ cd /projects/first-steps-clone  
 $ git pull  
-```  
-pull命令取回了新的修改，并于克隆体的本地修改进行对比，并在工作区合并了两边的修改，创建了一次新提交。
-该过程就是所谓的合并（merge）。注意：合并可能会带来冲突，然后合并就会失败。  
-图形显示修改log。  
+```
+pull命令取回了新的修改，并于克隆体的本地修改进行对比，并在工作区合并了两边的修改，创建了一次新提交。  
+该过程就是所谓的合并（merge）。注意：合并可能会带来冲突，然后合并就会失败。图形显示修改log。  
 ```shell
 $ git log --graph
-```  
+```
 
 3. 从任意版本库中取回修改  
-无参情况下，pull命令旨在克隆版本库中发挥作用。也可以用参数指定任意版本库的路径，以便从某一特定开发分支中
+无参情况下，pull命令旨在克隆版本库中发挥作用。也可以用参数指定任意版本库的路径，以便从某一特定开发分支中  
 提取相关修改。  
 把克隆体中的修改pull到原版本库，代码如下：  
 ```shell
 $ cd /projects/first-steps  
 $ git pull /projects/first-steps-clone master
-```  
+```
 
 4. 创建共享版本库  
-可以用push命令将提交传送给其他版本库。不过，push命令只适合用于那些没有开发者在上面开展具体工作的版本库。
-最好的方法就是创建一个不带工作区的版本库（裸版本库，bare repository），可以使用`clone --bare`选项创建
-一个裸版本库。裸版本库通常可被用来充当开发者们传递提交（使用push命令）的汇聚点，以便其他人可以从中拉回他
+可以用push命令将提交传送给其他版本库。不过，push命令只适合用于那些没有开发者在上面开展具体工作的版本库。  
+最好的方法就是创建一个不带工作区的版本库（裸版本库，bare repository），可以使用`clone --bare`选项创建  
+一个裸版本库。裸版本库通常可被用来充当开发者们传递提交（使用push命令）的汇聚点，以便其他人可以从中拉回他  
 们所做的修改。  
-`$ git clone --bare /projects/first-steps /projects/first-steps-bare.git`  
+```shell
+$ git clone --bare /projects/first-steps /projects/first-steps-bare.git
+```
 
 5.  用push命令上载修改  
 ```shell
@@ -124,7 +129,9 @@ $ git add foo.txt
 $ git commit -m "changes "  
 ```
 把上述修改向共享版本库传送改提交。  
-`$ git push /projects/first-steps-bare.git master`  
+```shell
+$ git push /projects/first-steps-bare.git master
+```  
 
 6. Pull命令：取回修改  
 让克隆版本库也得到响应的修改
