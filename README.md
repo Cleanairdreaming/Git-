@@ -29,6 +29,22 @@
     - [5.1 一种简单而高校的存储系统](#51-一种简单而高校的存储系统)
     - [5.2 存储目录：Blob与Tree](#52-存储目录blob与tree)
     - [5.3 相同数据只存储一次](#53-相同数据只存储一次)
+  - [第六章 分支](#第六章-分支)
+    - [6.1 并行式开发](#61-并行式开发)
+    - [6.2 修复旧版本中的bug](#62-修复旧版本中的bug)
+    - [6.4 当前活跃分支](#64-当前活跃分支)
+    - [6.6 重置分支指针](#66-重置分支指针)
+    - [6.7 删除分支](#67-删除分支)
+    - [6.8 清理提交对象](#68-清理提交对象)
+  - [第七章 合并分支](#第七章-合并分支)
+    - [7.2 冲突](#72-冲突)
+    - [7.3 编辑冲突](#73-编辑冲突)
+    - [7.4 冲突标志](#74-冲突标志)
+    - [7.5 解决编辑冲突](#75-解决编辑冲突)
+    - [7.6 内容冲突](#76-内容冲突)
+    - [7.7 开进合并](#77-开进合并)
+    - [7.8 第一父级提交历史](#78-第一父级提交历史)
+    - [7.9 棘手的合并冲突](#79-棘手的合并冲突)
 
 ---
 ## 第一章 基本概念  
@@ -315,8 +331,129 @@ $ git cat-file -p 28cf67640e5
 Git使用了一种包含两种节点类型的简单树结构。
 
 ### 5.3 相同数据只存储一次
-```git
+```shell
 # 下面命令返回相同散列值  
 $ git hash-object -w foo.txt  
 $ git hash-object -w copy-of-foo.txt  
+```
+
+---
+## 第六章 分支
+
+### 6.1 并行式开发
+
+并行式开发会创建分支。  
+
+### 6.2 修复旧版本中的bug
+
+当前版本检测到错误，而新版本又尚不能交付，就会创建基于当前版本的分支。  
+
+### 6.4 当前活跃分支
+```shell
+# 列出当前分支  
+$ git branch  
+# 改变当前分支  
+$ git checkout a-branch  
+
+# 为任意一批提交创建分支  
+$ git branch still-a-branch 28b7da45e  
+# 从现有分支中创建分支  
+$ git branch still-a-branch older-branch  
+
+# 创建并切换到新分支  
+$ git checkout -b a-branch
+```
+Checkout操作被拒绝时怎么办  
+```shell
+# 提交修改并切换  
+$ git commit --all  
+$ git checkout a-branch  
+# 放弃修改并切换  
+$ git checkout --force a-branch  
+# 储藏并切换  
+$ git stash  
+$ git checkout a-branch  
+```
+
+### 6.6 重置分支指针
+
+```shell
+$ git reset --hard 39er21a
+```
+
+### 6.7 删除分支
+
+```shell
+# 删除一个已被终止的分支  
+$ git branch -d b-branch  
+# 删除一个打开的分支  
+$ git branch -D b-branch  
+
+# 恢复分支，已知散列值  
+$ git branch a-branch 742dcdf  
+# 不知散列值  
+$ git reflog # 查找散列值  
+$ git branch b-branch HEAD@{1}  
+```
+
+### 6.8 清理提交对象
+
+gc命令可用于清理版本库，移除所有不属于当前分支的提交对象。
+
+---
+## 第七章 合并分支
+
+### 7.2 冲突
+* 编辑冲突
+* 内容冲突
+  
+### 7.3 编辑冲突
+
+git status中，“Changes to be committed”显示的是自动合并的文件，“Unmerged paths”是用户必须手动
+编辑的文件。
+
+### 7.4 冲突标志
+```shell
+# 设置成三路显示格式  
+$ git config merge.conflictstyle diff3  
+```
+
+### 7.5 解决编辑冲突
+```shell
+# 启动合并工具  
+$ git mergetool  
+
+# 合并出现错误，通过reset取消  
+$ git reset --merge  
+```
+
+### 7.6 内容冲突
+
+Git无法识别内容冲突。
+* 借助自动化测试构建保护机制
+* 使用断言、以及前置与后置条件
+* 定义清晰的接口，使其实现松耦合
+* 静态类型检查
+
+### 7.7 开进合并
+```shell
+# 强制快进提交产生一次新的提交  
+$ git merge --no-ff a-branch  
+```
+
+### 7.8 第一父级提交历史
+```shell
+$ git log --merges  
+# 显示第一父级提交历史  
+$ git log --first-parent --oneline R1.0..master
+```
+
+### 7.9 棘手的合并冲突
+```shell
+# a..b可用来标识来源于分支b，但不属于a的提交
+$ git log MERGE_HEAD..HEAD  
+# 显示别人做的事情  
+$ git log HEAD..MERGE_HEAD  
+# 图形化显示
+$ git log --graph --oneline --decorate HEAD MERGE_HEAD  
 ```
