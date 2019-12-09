@@ -63,6 +63,14 @@
     - [9.8 讨厌钻石链的人：请用--rebase选项](#98-讨厌钻石链的人请用--rebase选项)
     - [9.9 Push: Pull的反面](#99-push-pull的反面)
     - [9.10 命名分支](#910-命名分支)
+  - [第十章 版本标签](#第十章-版本标签)
+    - [10.1 创建标签](#101-创建标签)
+    - [10.2 当前究竟存在哪些标签](#102-当前究竟存在哪些标签)
+    - [10.3 打印标签的散列值](#103-打印标签的散列值)
+    - [10.4 将标签添加到日志输出中](#104-将标签添加到日志输出中)
+    - [10.5 究竟在哪个版本里呢](#105-究竟在哪个版本里呢)
+    - [10.6 如何修改标签呢](#106-如何修改标签呢)
+    - [10.7 当我们需要一个浮动标签时](#107-当我们需要一个浮动标签时)
 
 ---
 ## 第一章 基本概念  
@@ -610,19 +618,75 @@ $ git push clone feature-a
 * 无参数调用push：在无参数的情况下，push命令将只发送那些在其他版本库中有相同名字匹配的本地分支。与之不同的是
 pull和fetch所选取的都是全部分支。
 
->推送被拒绝后，下一步怎么做
->> 1. 找到冲突
->> `$ git push clone feature-a`
->> 2. 改变分支
->> `$ git checkout feature-a`
->> 3. 执行一次拉取操作
->> `$ git pull`
->> 4. 在必要情况下，清理合并冲突
->> `$ git mergetool`
->> `$ git commit -all`
->> `$ git checkout feature-a`
->> 5. 重新推送
->> `$ git push clone feature-a`
+> 推送被拒绝后，下一步怎么做
+>> 1. 找到冲突  
+>> `$ git push clone feature-a`  
+>> 2. 改变分支  
+>> `$ git checkout feature-a`  
+>> 3. 执行一次拉取操作  
+>> `$ git pull`  
+>> 4. 在必要情况下，清理合并冲突  
+>> `$ git mergetool`  
+>> `$ git commit -all`  
+>> `$ git checkout feature-a`  
+>> 5. 重新推送  
+>> `$ git push clone feature-a`  
 
 ### 9.10 命名分支
+```shell
+$ git pull clone feature-a:favorite-feature
+# pull命令从clone版本库中导入了feature-a分支，并命名成favorite-feature
+```
+> 删除远程版本库中的分支  
+> > 1. 删除远程版本库中的分支  
+> > `$ git push clone :feature-a`  
+> > 2. 必要的情况下，也要删除本地的相应分支  
+> > `$ git branch -d feature-a`  
+
+---
+## 第十章  版本标签
+### 10.1 创建标签
+> **标签化某次提交**  
+> 1. 创建一个普通标签  
+> `$ git tag 1.2.3.4 master -m "Freshly built."`  
+> 2. 推送某单一标签  
+> `$ git push origin 1.2.3.4 `  
+用--tags参数，推送分支标签。
+```shell
+$ git push --tags  
+```
+添加GnuPG标签，前提是git中输入了默认email地址，同时该账户也是注册GnuPG时所用的用户ID。
+```shell
+$ git tag 1.2.3.4 master -s -m "Signed."
+```
+
+### 10.2 当前究竟存在哪些标签
+```shell
+$ git tag -1 1.2.*
+```
+
+### 10.3 打印标签的散列值
+```shell
+$ git show-ref --dereference --tags
+```
+
+### 10.4 将标签添加到日志输出中
+```shell
+$ git log --oneline --decorate
+```
+
+### 10.5 究竟在哪个版本里呢
+```shell
+$ git tag --contains f63cd72  
+$ git log --oneline 1.2.3.3 | grep "a comment"
+```
+
+### 10.6 如何修改标签呢
+
+建议不去修改它。
+
+### 10.7 当我们需要一个浮动标签时
+
+应该使用一个分支，而不是标签。
+
 
