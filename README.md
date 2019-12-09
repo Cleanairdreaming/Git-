@@ -618,30 +618,30 @@ $ git push clone feature-a
 * 无参数调用push：在无参数的情况下，push命令将只发送那些在其他版本库中有相同名字匹配的本地分支。与之不同的是
 pull和fetch所选取的都是全部分支。
 
-> 推送被拒绝后，下一步怎么做
->> 1. 找到冲突  
->> `$ git push clone feature-a`  
->> 2. 改变分支  
->> `$ git checkout feature-a`  
->> 3. 执行一次拉取操作  
->> `$ git pull`  
->> 4. 在必要情况下，清理合并冲突  
->> `$ git mergetool`  
->> `$ git commit -all`  
->> `$ git checkout feature-a`  
->> 5. 重新推送  
->> `$ git push clone feature-a`  
+> **推送被拒绝后，下一步怎么做**
+> 1. 找到冲突  
+> `$ git push clone feature-a`  
+> 2. 改变分支  
+> `$ git checkout feature-a`  
+> 3. 执行一次拉取操作  
+> `$ git pull`  
+> 4. 在必要情况下，清理合并冲突  
+> `$ git mergetool`  
+> `$ git commit -all`  
+> `$ git checkout feature-a`  
+> 5. 重新推送  
+> `$ git push clone feature-a`  
 
 ### 9.10 命名分支
 ```shell
 $ git pull clone feature-a:favorite-feature
 # pull命令从clone版本库中导入了feature-a分支，并命名成favorite-feature
 ```
-> 删除远程版本库中的分支  
-> > 1. 删除远程版本库中的分支  
-> > `$ git push clone :feature-a`  
-> > 2. 必要的情况下，也要删除本地的相应分支  
-> > `$ git branch -d feature-a`  
+> **删除远程版本库中的分支**  
+> 1. 删除远程版本库中的分支  
+> `$ git push clone :feature-a`  
+> 2. 必要的情况下，也要删除本地的相应分支  
+> `$ git branch -d feature-a`  
 
 ---
 ## 第十章  版本标签
