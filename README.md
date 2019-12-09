@@ -55,6 +55,14 @@
   - [第九章 版本库间的交换](#第九章-版本库间的交换)
     - [9.1 克隆版本库](#91-克隆版本库)
     - [9.2 如何告知Git其他版本库的位置](#92-如何告知git其他版本库的位置)
+    - [9.3 给别处的版本库起个名字](#93-给别处的版本库起个名字)
+    - [9.4 获取数据](#94-获取数据)
+    - [9.5 远程跟踪分支：监控其他分支](#95-远程跟踪分支监控其他分支)
+    - [9.6 利用本地分支操作别处的版本库](#96-利用本地分支操作别处的版本库)
+    - [9.7 Pull = Fetch + Merge](#97-pull--fetch--merge)
+    - [9.8 讨厌钻石链的人：请用--rebase选项](#98-讨厌钻石链的人请用--rebase选项)
+    - [9.9 Push: Pull的反面](#99-push-pull的反面)
+    - [9.10 命名分支](#910-命名分支)
 
 ---
 ## 第一章 基本概念  
@@ -501,7 +509,7 @@ $ git rebase master
 
 ### 8.3 什么情况下会遇到冲突呢
 
-如果rebase名零零在执行过程中遇到冲突，相关文件会出现冲突标志。需要对文件进行清理，并重新将他们添加到
+如果rebase命令在执行过程中遇到冲突，相关文件会出现冲突标志。需要对文件进行清理，并重新将他们添加到
 暂存区，然后再执行rebase命令加--continue选项，从该点继续之前的进程。也可以用--abort选项取消这次的
 rebase命令，或者--skip选项跳过引起冲突的提交。
 
@@ -539,5 +547,82 @@ $ git cherry-pick 23dfjk33
 通常情况下Git创建版本库之后会直接签出工作区。可以用--bare选项创建一个不带工作区的版本库。
 
 ### 9.2 如何告知Git其他版本库的位置
+```shell
+# 克隆本地库  
+$ git clone /Users/path/git-book.git  
+# 不同来源的版本库  
+$ git clone file:///Users/path/git-book.git  
+# 还有其他协议，ssh  
+$ git clone ssh://user@server.com:git-book.git  
+# 此外还有http、https、ftp、ftps和rsync，或者git的专有协议  
+```
 
+### 9.3 给别处的版本库起个名字
+```shell
+$ git remote add myClone file:///tmp/git-book-clone.git
+# 当某个版本库被克隆时，Git会自动将原版本库路径的路径存储为它的源版本库。  
+$ git remote --verbose  # 显示用于推送或获取的路径  
+# 删除昵称  
+$ git remote rm myClone  
+```
+
+### 9.4 获取数据  
+```shell
+# 获取其他版本库中所有分支中尚未再本地版本库中存在的提交  
+$ git fetch myClone
+```
+
+### 9.5 远程跟踪分支：监控其他分支
+```shell
+# 存在着两种类型的分支，本地的和被远程跟踪的。  
+$ git branch -r  
+# 对比版本不同  
+$ git diff feature-a clone/feature-a  
+# 查看远程版本的新增提交  
+$ git log --oneline feature-a..clone/feature-a  
+# 从远程跟踪分支中分岔出一个本地分支  
+$ git checkout -b feature-b clone/feature-b  
+```
+
+### 9.6 利用本地分支操作别处的版本库
+```shell
+# clone feature-b到本地，如果本地不存在my-feature-b的库，就创建它，如果有更新它  
+$ git fetch clone feature-b:my-feature-b
+```
+
+### 9.7 Pull = Fetch + Merge
+```shell
+$ git pull
+```
+
+### 9.8 讨厌钻石链的人：请用--rebase选项
+```shell
+$ git pull --rebase
+```
+
+### 9.9 Push: Pull的反面
+```shell
+$ git push clone feature-a
+```
+* 写访问：push只能用在我们对其他版本有写访问权限时
+* 只针对快进合并：push操作通常不会带来合并。
+* 无远程跟踪分支。
+* 无参数调用push：在无参数的情况下，push命令将只发送那些在其他版本库中有相同名字匹配的本地分支。与之不同的是
+pull和fetch所选取的都是全部分支。
+
+>推送被拒绝后，下一步怎么做
+>> 1. 找到冲突
+>> `$ git push clone feature-a`
+>> 2. 改变分支
+>> `$ git checkout feature-a`
+>> 3. 执行一次拉取操作
+>> `$ git pull`
+>> 4. 在必要情况下，清理合并冲突
+>> `$ git mergetool`
+>> `$ git commit -all`
+>> `$ git checkout feature-a`
+>> 5. 重新推送
+>> `$ git push clone feature-a`
+
+### 9.10 命名分支
 
