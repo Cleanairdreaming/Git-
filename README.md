@@ -81,6 +81,12 @@
     - [14.3 工作流简介：设置项目](#143-工作流简介设置项目)
     - [14.4 执行过程及其实现](#144-执行过程及其实现)
       - [14.4.1 基于项目目录创建一个新的版本库](#1441-基于项目目录创建一个新的版本库)
+      - [14.4.2 以文件访问的方式共享版本库](#1442-以文件访问的方式共享版本库)
+      - [14.4.3 用Git daemon来共享版本库](#1443-用git-daemon来共享版本库)
+      - [14.4.4 用HTTP协议来共享版本库](#1444-用http协议来共享版本库)
+      - [14.4.5 用SSH协议来共享版本库](#1445-用ssh协议来共享版本库)
+    - [14.5 何不换一种做法](#145-何不换一种做法)
+  - [第十五章 相同分支上的开发](#第十五章-相同分支上的开发)
 
 ---
 
@@ -113,7 +119,7 @@ cd /target/dir/projects/first-steps
 git init  
 ```
 
-1. 首次提交  
+2. 首次提交  
 
 第一步，add文件。  
 第二步，commit，完成后会有一个散列值标识本次提交。  
@@ -123,7 +129,7 @@ git add foo.txt bar.txt
 git commit --message "Sample project imported."  
 ```  
 
-1. 检查状态  
+3. 检查状态  
 
 ```shell
 git status  
@@ -135,7 +141,7 @@ git status
 git diff your.file  
 ```  
 
-1. 提交修改  
+4. 提交修改  
 
 所有修改都必须先被归档成一次新提交。添加使用add命令，删除使用rm命令。  
 
@@ -151,7 +157,7 @@ git commit --message "your changes"
 git commit -m "your changes"  
 ```
 
-1. 显示历史  
+5. 显示历史  
 
 ```shell
 git log  
@@ -165,7 +171,7 @@ git log
 git clone /projects/first-steps /projects/first-steps-clone
 ```
 
-1. 从另一版本库中获取修改  
+2. 从另一版本库中获取修改  
 
 在原始库中常见一次新提交：  
 
@@ -204,7 +210,7 @@ pull命令取回了新的修改，并于克隆体的本地修改进行对比，�
 git log --graph
 ```
 
-1. 从任意版本库中取回修改  
+3. 从任意版本库中取回修改  
 
 无参情况下，pull命令旨在克隆版本库中发挥作用。也可以用参数指定任意版本库的路径，以便从某一特定开发分支中
 提取相关修改。  
@@ -215,7 +221,7 @@ cd /projects/first-steps
 git pull /projects/first-steps-clone master
 ```
 
-1. 创建共享版本库  
+4. 创建共享版本库  
 
 可以用push命令将提交传送给其他版本库。不过，push命令只适合用于那些没有开发者在上面开展具体工作的版本库。
 最好的方法就是创建一个不带工作区的版本库（裸版本库，bare repository），可以使用`clone --bare`选项创建
@@ -226,7 +232,7 @@ git pull /projects/first-steps-clone master
 git clone --bare /projects/first-steps /projects/first-steps-bare.git
 ```
 
-1. 用push命令上载修改  
+5. 用push命令上载修改  
 
 ```shell
 cd /projects/first-steps 
@@ -240,7 +246,7 @@ git commit -m "changes "
 git push /projects/first-steps-bare.git master
 ```  
 
-1. Pull命令：取回修改  
+6. Pull命令：取回修改  
 
 让克隆版本库也得到响应的修改
 
@@ -337,7 +343,7 @@ git status --short
 ```
 
 输出选项：
-  
+
 - changes to be committed
 - changed but not updated
 - untracked files
@@ -868,10 +874,217 @@ git log --oneline 1.2.3.3 | grep "a comment"
 
 #### 14.4.1 基于项目目录创建一个新的版本库
 
+- 准备空目录
+
 ```shell
+
 cd projecta/EmptyDir
 touch .gitignore
 # 在 .gitignore 中插入一个带“*”的行，表示该目录中的所有文件都将被忽略
 echo "*" > .gitignore
+```
+
+- 忽略不需要的文件和目录
+
+```shell
+# TempDir目录下所有扩展名为.bak的文件都会被忽略
+/TmepDir
+*.bak
+```
+
+- 创建一个版本库
+  
+```shell
+cd projecta
+git init
+```
+
+- 定义行尾终止符
+
+> Git对于行尾结束符主要有三种不同的处理方式
+> core.autocrlf false: 该方案会忽略行尾结束符。
+> core.autocrlf true: 该方案会（用LF）执行标准化，但也会根据相应的平台来回切换。
+> core.autocrlf input: 该方案在引入标准化（LF）时不会调整行尾结束符，当会将其来回切换。
+> Windows系统，应设为true；Unix系统上首次导入前应设置为input。
+
+设置core-autocrlf成input
+
+```shell
+git config --global core.sutocrlf input
+```
+
+- 导入文件
+
+```shell
+git status
+git add .
+git commit -m "init"
+```
+
+- 创建一个裸版本库
+
+```shell
+git clone --bare projecta projecta.git
+```
+
+#### 14.4.2 以文件访问的方式共享版本库
+
+- 复制裸版本库
+
+```shell
+cp -R projecta.git /shared/gitrepos/.
+```
+
+- 克隆中央版本库
+
+```shell
+git clone /shared/gitrepos/projecta.git
+# or 
+git clone file:///shared/gitrepos/projecta.git
+```
+
+- 管理读写权限
+
+在这里，对版本库的读写访问是由文件系统来管理的。
+
+#### 14.4.3 用Git daemon来共享版本库
+
+- 为git daemon准备好相应的版本库
+
+```shell
+cd projecta.git
+touch git-daemon-export-ok
+```
+
+- 启动git daemon
+
+```shell
+git daemon
+# 具体的url如下：
+# git://server-42/shared/gitrepos/projecta.git
+
+# 设置基本路径
+git daemon --base-path=/shared/gitrepos
+# 可以用'git://server-42/projecta.git'来访问该版本库
+# 默认daemon导出来的版本库往往只有读取权限。
+# 打开写权限命令如下：
+git daemon --base-path=/shared/gitrepos --enable=receive-pack
+```
+
+- 克隆中央版本库
+
+```shell
+git clone git://server-42/projecta.git
+```
+
+- 管理读写访问权限
+
+版本库的读写访问权限不能由开发者各自来单独定义。
+
+#### 14.4.4 用HTTP协议来共享版本库
+
+- 启用Apache2中的相关模块
+
+```shell
+# 加载模块
+LoadModule cgi_module libexec/apache2/mod_cgi.so
+LoadModule cgi_module libexec/apache2/mod_alias.so
+LoadModule cgi_module libexec/apache2/mod_env.so
+```
+
+- 允许对CGI脚本进行访问
+
+```html
+<!--
+假定CGI脚本位于'/usr/local/git-core'
+# 给Apache2赋予调用权限
+-->
+<Directory "/usr/local/git-core">
+  AllowOverride None
+  Options None
+  Order allow,deny
+  Allow from all
+</Directory>
+```
+
+- 赋予HTTP协议访问版本库权限
+
+```shell
+cd /shared/gitrepos/projecta.git
+touch git-daemon-export-ok
+
+# 在httpd.conf文件中指定带导入版本库所在的根目录
+SetEnv GIT_PROJECT_ROOT /shared/gitrepos
+
+# 为CGI脚本设置一个别名，如'./git'
+ScriptAlias /git/ /usr/local/git/libexec/git-core/git-http-backend/
+
+# 重启Apache2之后，就可以访问'/shared/gitrepos'目录下的所有版本
+```
+
+- 克隆中央版本库
+
+```shell
+git clone http://server-42/git/projecta.git
+```
+
+- 管理读写访问权限
+
+```html
+<!-- 
+  读写访问权限可以用一般Web服务器的访问权限来定义。
+  写权限的配置如下：
+  有了这个配置项，每次push命令所发出的请求都会交由git-receive-pack处理
+ -->
+<LocationMatch "^/git/.*/git-receive-pack$">
+  AuthType Basic
+  AuthName "Git Access"
+  AuthUserFile /shared/gitrepos/git-auth-file
+  Require valid-user
+</LocationMatch>
+```
+
+```html
+<!--
+  将某个版本库读写都纳入密码保护，需要配置如下
+-->
+<LocationMatch /git/projecta.git>
+  AuthType Basic
+  AuthName "Git Access"
+  AuthUserFile /shared/gitrepos/git-auth-file
+  Require valid-user
+</LocationMatch>
 
 ```
+
+#### 14.4.5 用SSH协议来共享版本库
+
+- 复制裸版本库
+
+```shell
+scp -r projecta.git server-42:/shared/gitrepos/projecta.git
+```
+
+- 克隆中央版本库
+
+```shell
+git clone ssh://server-42:/shared/gitrepos/projecta.git
+# or
+git clone server-42:/shared/gitrepos/projecta.git
+```
+
+- 管理读写访问权限
+
+版本库的读写权限由掌管SSH服务和文件系统权限管理员来管理。
+
+### 14.5 何不换一种做法
+
+- 何不放弃推送操作
+
+通常在一个开源项目中，我们往往使用的是一个纯拉取的动作序列。所有开发者只在自己版本库中完成相关的工作，并且只有负责整合的人员（集成负责人，integrator）才有更新中央软件版本的权限。
+
+---
+
+## 第十五章 相同分支上的开发
+
+
