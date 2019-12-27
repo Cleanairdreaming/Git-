@@ -87,6 +87,81 @@
       - [14.4.5 用SSH协议来共享版本库](#1445-用ssh协议来共享版本库)
     - [14.5 何不换一种做法](#145-何不换一种做法)
   - [第十五章 相同分支上的开发](#第十五章-相同分支上的开发)
+    - [15.1 概述](#151-概述)
+    - [15.2 使用要求](#152-使用要求)
+    - [15.3 工作流简述：相同分支上的开发](#153-工作流简述相同分支上的开发)
+    - [15.4 执行过程及其实现](#154-执行过程及其实现)
+    - [15.5 何不换一种做法](#155-何不换一种做法)
+  - [第十六章 基于特性分支的开发](#第十六章-基于特性分支的开发)
+    - [16.1 概述](#161-概述)
+    - [16.2 使用要求](#162-使用要求)
+    - [16.3 工作流简介：基于特性分支的开发](#163-工作流简介基于特性分支的开发)
+    - [16.4 执行过程及其实现](#164-执行过程及其实现)
+      - [16.4.1 创建特性分支](#1641-创建特性分支)
+      - [16.4.2 在master分支上继承某一特性](#1642-在master分支上继承某一特性)
+      - [16.4.3 将master分支上所发生的修改传递给特性分支](#1643-将master分支上所发生的修改传递给特性分支)
+    - [16.5 何不换一种做法](#165-何不换一种做法)
+  - [第十七章 二分法排错](#第十七章-二分法排错)
+    - [17.1 概述](#171-概述)
+    - [17.2 使用要求](#172-使用要求)
+    - [17.3 工作流简介：二分法排错](#173-工作流简介二分法排错)
+    - [17.4 执行过程及其实现](#174-执行过程及其实现)
+      - [17.4.1 用二分法人工排错](#1741-用二分法人工排错)
+      - [17.4.2 用二分法自动排错](#1742-用二分法自动排错)
+    - [17.5 何不换一种做法](#175-何不换一种做法)
+  - [第十八章 基于构建服务器的工作](#第十八章-基于构建服务器的工作)
+    - [18.1 概述](#181-概述)
+    - [18.2 使用要求](#182-使用要求)
+    - [18.3 工作流简述：基于构建服务器的工作](#183-工作流简述基于构建服务器的工作)
+    - [18.4 执行过程及其实现](#184-执行过程及其实现)
+      - [18.4.1 预备构建服务器](#1841-预备构建服务器)
+      - [18.4.2 构建服务器上的Git](#1842-构建服务器上的git)
+      - [18.4.3 对比本地开发版本库与最后成功构建版本库之间的差异](#1843-对比本地开发版本库与最后成功构建版本库之间的差异)
+      - [18.8.4 基于构建历史的排错](#1884-基于构建历史的排错)
+    - [18.5 何不换种做法](#185-何不换种做法)
+  - [第十九章 发行版交付](#第十九章-发行版交付)
+    - [19.1 概述](#191-概述)
+    - [19.2 使用要求](#192-使用要求)
+    - [19.3 工作流简述：“发行版交付”](#193-工作流简述发行版交付)
+    - [19.4 执行过程及其实现](#194-执行过程及其实现)
+      - [19.4.1 预备阶段：创建stable分支](#1941-预备阶段创建stable分支)
+      - [19.4.2 预备并创建发行版](#1942-预备并创建发行版)
+      - [19.4.3 创建补丁](#1943-创建补丁)
+    - [19.5 何不换一种做法](#195-何不换一种做法)
+  - [第二十章 拆分大项目](#第二十章-拆分大项目)
+    - [20.1 概述](#201-概述)
+    - [20.2 使用要求](#202-使用要求)
+    - [20.3 工作流简述：“拆分大项目”](#203-工作流简述拆分大项目)
+    - [20.4 执行过程及其实现](#204-执行过程及其实现)
+      - [20.4.1 拆分模块版本库](#2041-拆分模块版本库)
+      - [20.4.2 将拆分出的模块作为外部版本库集成](#2042-将拆分出的模块作为外部版本库集成)
+    - [20.5 何不换一种做法](#205-何不换一种做法)
+  - [第二十一章 合并小型项目](#第二十一章-合并小型项目)
+    - [20.1 概述](#201-概述-1)
+    - [20.2 使用要求](#202-使用要求-1)
+    - [20.3 工作流简介：“合并小项目”](#203-工作流简介合并小项目)
+    - [20.4 执行过程及其实现](#204-执行过程及其实现-1)
+    - [21.5 何不换一种做法](#215-何不换一种做法)
+  - [第二十二章 外包长历史纪录](#第二十二章-外包长历史纪录)
+    - [22.1 概述](#221-概述)
+    - [22.2 使用要求](#222-使用要求)
+    - [22.3 工作流简述：“外包长历史记录”](#223-工作流简述外包长历史记录)
+    - [22.4 执行过程及其实现](#224-执行过程及其实现)
+      - [22.4.1 外包项目历史](#2241-外包项目历史)
+      - [22.4.2 链接到当前活动版本库](#2242-链接到当前活动版本库)
+    - [22.5 何不换一种做法](#225-何不换一种做法)
+  - [第二十三章 与其他版本控制系统并行使用](#第二十三章-与其他版本控制系统并行使用)
+    - [23.1 概述](#231-概述)
+    - [23.2 使用要求](#232-使用要求)
+    - [23.3 工作流简介：“与其他版本控制系统并行使用”](#233-工作流简介与其他版本控制系统并行使用)
+    - [23.4 执行过程及其实现](#234-执行过程及其实现)
+      - [23.4.1 初始部署版本库](#2341-初始部署版本库)
+      - [23.4.2 得到中央版本控制管理中的更新修改](#2342-得到中央版本控制管理中的更新修改)
+      - [23.4.3 将修改提交传输到中央版本控制系统](#2343-将修改提交传输到中央版本控制系统)
+    - [20.5 何不换一种做法](#205-何不换一种做法-1)
+  - [第二十四章 迁移到Git](#第二十四章-迁移到git)
+  - [第二十五章 还有一些其他任务](#第二十五章-还有一些其他任务)
+  - [第二十六章 Git的缺点](#第二十六章-git的缺点)
 
 ---
 
@@ -839,6 +914,7 @@ git log --oneline 1.2.3.3 | grep "a comment"
 略。
 
 ---
+
 ## 第十四章  项目设置
 
 工作流具体包含如下内容：
@@ -901,11 +977,11 @@ git init
 
 - 定义行尾终止符
 
-> Git对于行尾结束符主要有三种不同的处理方式
-> core.autocrlf false: 该方案会忽略行尾结束符。
-> core.autocrlf true: 该方案会（用LF）执行标准化，但也会根据相应的平台来回切换。
-> core.autocrlf input: 该方案在引入标准化（LF）时不会调整行尾结束符，当会将其来回切换。
-> Windows系统，应设为true；Unix系统上首次导入前应设置为input。
+> Git对于行尾结束符主要有三种不同的处理方式   
+> core.autocrlf false: 该方案会忽略行尾结束符。  
+> core.autocrlf true: 该方案会（用LF）执行标准化，但也会根据相应的平台来回切换。  
+> core.autocrlf input: 该方案在引入标准化（LF）时不会调整行尾结束符，当会将其来回切换。  
+> Windows系统，应设为true；Unix系统上首次导入前应设置为input。  
 
 设置core-autocrlf成input
 
@@ -1087,4 +1163,791 @@ git clone server-42:/shared/gitrepos/projecta.git
 
 ## 第十五章 相同分支上的开发
 
+本章介绍的工作流包含如下内容：
 
+- 如何在本地的master分支上进行开发工作
+- 如何将自己的成果发布到中央版本库
+- 如何让其他开发者使用这些成果
+
+### 15.1 概述
+
+略。
+
+### 15.2 使用要求
+
+略。
+
+### 15.3 工作流简述：相同分支上的开发
+
+本章的工作流中，所有开发者都将现在本地版本库的同一分支上开展工作，然后将工作结果合并到中央版本库的master分支上去。
+
+### 15.4 执行过程及其实现
+
+- 在master分支上操作
+
+```shell
+# 1 更新master分支
+# 去中央版本库获取最新版本，并保证本地提交不会被传送给中央版本库
+git pull --ff-only
+
+# 2 进行本地更改
+# 在进入下一步步骤前需要提交
+git commit -m "Method X revised"
+
+# 3 将中央版本库中发生的修改合并到本地修改中
+git pull
+
+# 4 将本地修改上传到中央版本库
+git push
+# 如果中央版本库有更新，可以用reset命令可以把之前的提交删除掉
+git reset --hard ORIG_HEAD
+# 然后再用pull从中央版本库获取更改
+```
+
+### 15.5 何不换一种做法
+
+- 用变基来代替合并
+
+```shell
+# 采用变基的方式，将中央版本库中的修改合并到本地
+git pull --rebase
+# 如果工作中会大量使用变基操作，可以将其配置成pull命令的默认行为
+git config branch.master.rebase true
+# 其中分支名（master）可以被替换成任何其他的分支名
+```
+
+---
+
+## 第十六章 基于特性分支的开发
+
+本章将详细介绍特性分支的使用，以便我们：
+
+- 能轻松定位实现了某一特性的提交
+- 且让master分支上的第一父级历史中只保留能充当发行版本文档的粗粒度提交
+- 并行特性的交付也成为了可能
+- 以及master上所发生的重大变更也能在特性开发期间使用
+
+### 16.1 概述
+
+合并操作必须要在master分支上发起，并且不能使用快进式合并，这样就能在master分支上得到一个清晰的第一父级历史，因为该分支上将只包含特性分支的合并提交。
+
+### 16.2 使用要求
+
+- **基于特性的开发方略**：项目计划或产品计划必须要立足于特性开发，即项目中的各种功能性需求要能被转化成相应的特性工作包。
+- **特性的小型化**：即一个特性必须要能在几小时或者几天内开发完成。费时较长的特性开发会与其他部分的开发并行运作，这种情况下，特性集成的成本越高，其带来的风险就越大。
+- **在本地执行回归测试**：将新特性提交给master分支之前，应先在自己的开发机器上进行本地的回归测试。检查一下该特性所带来的变更是否与其他特性兼容，以及是否有我们不希望看到的副作用。
+
+### 16.3 工作流简介：基于特性分支的开发
+
+先用独立的专用分支来开发各个特性或进行错误修复，然后在特性开发或错误修复完成之后将其合并到master分支上去。
+
+### 16.4 执行过程及其实现
+
+一旦使用了特性分支，本地版本库中往往会存在多个分支。在没有参数情况下，push命令只会将当前活动分支中的内容传送给远程版本库。可以通过设置'push.default'来更改这一行为
+
+```shell
+git config push.default upstream
+```
+
+该选项的默认值匹配所有与远程版本库中有相同分支的本地分支，因此我们每次执行push命令时必须明确指定分支。
+
+#### 16.4.1 创建特性分支
+
+```shell
+# 1 更新master分支
+git checkout master
+git pull --ff-only
+# --ff-only表示只允许快进式合并，如果这时存在本地修改，该合并操作就会被取消
+
+# 2 创建特性分支
+git checkout -b feature-a
+
+# 3 (可选)在中央版本库上维护特性分支
+git push --set-upstream origin feature-a
+# --set-upstream参数将本地的特性分支何远程版本库中的新分支连接起来，这样执行push和pull就可以免去显式指定远程分支。
+# 后面直接push就可以了
+git push
+```
+
+#### 16.4.2 在master分支上继承某一特性
+
+相关的合并必须始终在master分支上执行。
+
+```shell
+# 1 更新master分支
+git checkout master
+git pull --ff-only
+
+# 2 合并特性分支
+git merge feature-a --no-ff --no-commit
+
+# 3 做一下回归测试，并为其创建一次提交
+# 如果测试缺失引发了错误，用reset命令丢弃当前执行的这次合并
+git reset --hard HEAD
+# 如果测试没有问题，直接提交
+git commit -m "Delivering feature-a"
+
+# 4 将master分支传递给中央版本库
+git push
+# 如果出现错误，可能是其他特性已经被集成进来。通常时先执行一下pull，将其修改合并到本地，执行pull命令后第一级副理事就不能再发挥作用了
+# 但第一父级历史中应该要纳入所有的特性，所以push命令失败后，本地特性分支上的合并田炯必须要用reset命令移除掉
+git reset --hard ORIG_HEAD
+# 然后再从第一步开始再执行一遍之前的操作。
+
+# 5 删除或继续使用该特性分支（二选一）
+# 5.1 删除该特性分支
+git branch -d feature-a
+# 如果被删除的特性分支再中央版本库中有对应的维护分支，则那边的分支也会被删除。
+git push origin :feature-a
+# 5.2 继续特性开发
+git checkout feature-a
+```
+
+#### 16.4.3 将master分支上所发生的修改传递给特性分支
+
+```shell
+# 1 更新master分支
+git checkout master
+git pull --ff-only
+
+# 2 将修改引入到特性分支中
+git checkout feature-a
+git merge --no-ff master
+```
+
+|Git-Flow: 高级的OperationsGit Flow。  
+|`git flow feature start feature-a`  
+|`git flow feature finish feature-a`
+
+### 16.5 何不换一种做法
+
+略。
+
+---
+
+## 第十七章 二分法排错
+
+- 如何有效的用二分法找出引发问题的提交
+- 如何用二分法实现自动化排错
+
+### 17.1 概述
+
+略。
+
+### 17.2 使用要求
+
+- 可重现的错误检测
+- 误差检测的成本不能太高
+
+### 17.3 工作流简介：二分法排错
+
+略。
+
+### 17.4 执行过程及其实现
+
+#### 17.4.1 用二分法人工排错
+
+```shell
+# 1 定义错误标志
+
+# 2 分别找出没问题和有问题的提交
+
+# 3 执行二分法排错
+git bisect start 202d25d 87ac59e  # 最后分别代表有问题、无问题提交的散列值
+# 接下来位于这两个提交之间的提交会被激活
+# 执行检测，用一下命令对当前提交进行标志
+bisect good  # 错误不在其中
+bisect bad  # 错误不在其中
+bisect skip  # 当前提交无法被测试。
+
+# 4 停止或取消二分查找
+git bisect reset
+```
+
+#### 17.4.2 用二分法自动排错
+
+```shell
+# 1 定义错误标志
+
+# 2 准备好测试脚本
+# 准备测试shell脚本，根据错误是否存在情况范围不同的推出码
+# Exit code 0: 没找到错误，标识为"good"
+# Exit code 1-124, 126, 127: 错误被找到，标识位"bad"
+# Exit code 125: 测试未被执行，二分查找直接跳过该提交。
+
+# Tips： 测试要在一个新文件中实现，它不应被Git纳入版本控制。
+
+# 3 分别找出没问题和有问题的提交
+
+# 4 执行二分法的自动化排错
+git bisect start 202d25d 87ac59e  # 最后分别代表有问题、无问题提交的散列值
+git bisect run ./bisect-test.sh
+
+# 5 完成二分查找操作
+git bisect reset
+```
+
+### 17.5 何不换一种做法
+
+- 何不用合并操作将测试脚本添加到旧提交中去
+
+将测试脚本纳入到一个新分支中，在该二分查找的shell脚本中，二分查找进程会在每次测试运行之前将bisect-test分支合并到当前提交中，然后用--nocommit选项防止其变成一个永久性提交。  
+然后测试完成后，再用reset命令重置掉合并操作。  
+操作序列和示例脚本可以在bisect命令的在线文档的Example一节中找到。  
+
+---
+
+## 第十八章 基于构建服务器的工作
+
+- 当前版本的构建与定期测试
+- 开发者可以随时拿最后成功测试的版本与他们工作区的内容进行比对
+- 创建一份记录成功的版本历史，以供日后排错只用
+
+### 18.1 概述
+
+在构建服务器中，我们通常会设置两个分支。last-build分支会直接只想master分支中最后构建成功的那个版本；buildhistory分支中则将会包含该软件所有被成功构建的版本。
+
+### 18.2 使用要求
+
+- 中央版本库
+- 持续性继承
+- 构建服务器
+- 测试套件
+
+### 18.3 工作流简述：基于构建服务器的工作
+
+略。
+
+### 18.4 执行过程及其实现
+
+#### 18.4.1 预备构建服务器
+
+```shell
+# 1 创建一个空的版本库
+mkdir buildrepo
+cd buildrepo
+git init
+
+# 2 获取中央版本库master分支
+git remote add -t master origin <central repo>
+# -t master: 表示只有master分支在将来执行fetch和pull命令时被自动船速
+# orgin: 表示新增远程版本库的名称。我们选择了目标相同的远程名称，以便clone命令也能使用这个名称
+# <central repo>: 表示连接到中央版本库的url
+git fetch
+
+# 3 创建一个build-history分支
+# 找到第一次提交
+git log --oneline --first-parent origin/master | tail -1
+# 构建build-history，并激活它
+git checkout -b build-history 3a05e36
+```
+
+#### 18.4.2 构建服务器上的Git
+
+```shell
+# 1 获取中央版本库中的修改
+git fetch
+
+# 2 检查是否存在构建请求
+git diff --shortstat --exit-code origin/master
+
+# 3 清理工作区
+git reset --hard HEAD
+# or 
+git clean --force
+
+# 4 将修改纳入到本地build-history分支中
+git merge --no-ff --no-commit origin/master
+
+# 5 完成构建
+
+# 6 完成提交
+git commit -m "build <build-number>"
+
+# 7 标记最后一次被成功构建的版本
+# 用branch命令创建一个新的last-build或者现有的，使其只想origin/master
+git branch --force last-build HEAD^2
+# 传递到中央版本库的last-build
+git push --forece origin last-build:last-build
+```
+
+#### 18.4.3 对比本地开发版本库与最后成功构建版本库之间的差异
+
+```shell
+# 1 检查中央版本库中的提交
+git log origin/last-build..origin/master
+git diff origin/last-build origin/master
+
+# 2 反思本地提交
+git diff origin/last-build
+```
+
+#### 18.8.4 基于构建历史的排错
+
+```shell
+# 1 连接到构建版本库
+git remote add build <build-repo-url>
+
+# 2 搬运构建历史
+git fetch build
+
+# 3 构建一个本地分支
+git checkout -b history build/build-history
+
+# 4 执行bisect命令
+git bisect start HEAD <good-commit>
+git bisect good
+# or
+git bisect bad
+
+# 5 解释结果
+git log <bad-commit>^1^2..<bad-commit>^2
+
+# 6 清理
+git bisect reset
+git checkout master
+git branch -D build-history
+git remote rm build
+```
+
+### 18.5 何不换种做法
+
+- 使用标签
+- 构建历史放在中央版本库中
+
+---
+
+## 第十九章 发行版交付
+
+- 产品发行版支持打补丁的功能
+- 在代码冻结阶段并行开发新版本的可能
+- 确保在开发阶段能以补丁形式修复所有错误，或则测试阶段的工作能回流到开发阶段
+- 发行版的历史以及补丁的历史记录要能很容易的被访问
+- 发行版与开发版之间的对比工作也要很容易进行
+
+### 19.1 概述
+
+略。
+
+### 19.2 使用要求
+
+- 产品发行版只有一个
+- 开发的稳定性
+- 发行版的完整性
+
+### 19.3 工作流简述：“发行版交付”
+
+略。
+
+### 19.4 执行过程及其实现
+
+#### 19.4.1 预备阶段：创建stable分支
+
+```shell
+git checkout stable
+git log --first-parent -oneline
+
+# 1 确认首次提交的位置
+git log --oneline --first-parent | tail -1
+
+# 2 创建stable分支
+git branch stable 3a05e25
+```
+
+#### 19.4.2 预备并创建发行版
+
+```shell
+# 1 创建codefreeze分支
+git checkout -b codefreeze master
+
+# 2 稳定codefreeze分支
+git checkout master
+git merge codefreeze
+
+# 3 创建发行版
+git log codefreeze..stable --oneline
+# 注释明确表示一下这个发行版的新提交
+git checkout stable
+git merge codefreeze --no-ff -m "Release-2.0.0"
+# 为发行版创建一个新的标签
+git tag -a release-2.0.0 -m "Release-2.0.0"
+# 最后删除codefreeze，其只存在于项目的稳定阶段
+git branch -d codefreeze
+
+# 4 更新master分支
+git checkout master
+git merge stable -m "Nach Release-2.0.0"
+```
+
+#### 19.4.3 创建补丁
+
+```shell
+# 1 创建hotfix分支进行排错
+git checkout -b hotfix-al stable
+
+# 2 验证补丁被并行化创建的可能性
+git log hotfix-al..stable --oneline
+git rebase stable
+
+# 3 发布补丁
+git checkout stable
+git merge hotfix-al --no-ff -m "Hotfix-Release-2.0.1"
+git tag -a release-2.0.1 -m "Hotfix-Release-2.0.1"
+
+# 4 在其他分支上接受补丁所做的修改
+# 代码冻结阶段
+git checkout codefreeze
+git merge stable -m "Hotfix 2.0.1"
+git checkout master
+git merge codefreeze -m "Hotfix 2.0.1"
+# 代码没冻结阶段
+git checkout master
+git merge stable -m "Hotfix 2.0.1"
+```
+
+### 19.5 何不换一种做法
+
+- 为什么不能只用标签
+- 何不干脆不使用标签
+- 为什么不能用快进式合并
+- 为什么卜直接在stable分支上实现补丁
+
+---
+
+## 第二十章 拆分大项目
+
+- 只有该模块所需要的文件被导入到新版本库
+- 模块文件历史将被保留在新版本库中
+- 模块可以作为外来模块再次被集成到主项目中
+
+### 20.1 概述
+
+略。
+
+### 20.2 使用要求
+
+- 项目内部需要模块化时
+- 模块文件被分置于不同的目录中时
+
+### 20.3 工作流简述：“拆分大项目”
+
+略。
+
+### 20.4 执行过程及其实现
+
+```shell
+git clone --no-hardlinks --bare project.git project.backup.git
+```
+
+#### 20.4.1 拆分模块版本库
+
+```shell
+# 1 克隆主版本库
+git clone --no-hardlinks --bare project.git modul3-work.git
+
+# 2 删除无用的文件和提交
+# 以下示例filter-branch命令删除src/module1目录下内容
+cd module3
+git filter-branch --force --index-filter \
+    'git rm -r --cached --ignore-unmatch src/module' \
+    --tag-name-filter cat --prune-empty -- --all
+
+# 3 删除无用的分支和标签
+git tag -d v1.0.1
+git branch -D v2.0_bf
+
+# 4 缩减模块版本库的规模
+git clone --no-hardlinks --bare module3-work.git module3.git
+rm -rf modul3-work.git
+
+# 5 定制模块版本库文件架构
+git clone module3.git module3
+cd module3
+mv src/module3 module3
+rmdir src
+mv module3 src
+mv test/module3 module3
+rmdir test
+mv module3 test
+
+git add --all
+git commit -m "Directory structure adapted"
+git push
+
+# 6 在主项目中删除已被拆分出来的模块目录
+```
+
+#### 20.4.2 将拆分出的模块作为外部版本库集成
+
+```shell
+git submodule add /global-path-to/module3.git extern/module3
+git add -all
+git commit -m "Module3 added"
+```
+
+### 20.5 何不换一种做法
+
+- 采用一个全新的版本库
+- 为什么不采用--subdirctory-filter选项
+
+---
+
+## 第二十一章 合并小型项目
+
+- 保留所有文件的历史版本
+- 保留所有版本库的标签
+
+### 20.1 概述
+
+略。
+
+### 20.2 使用要求
+
+- 不同的标签
+
+### 20.3 工作流简介：“合并小项目”
+
+略。
+
+### 20.4 执行过程及其实现
+
+```shell
+# 1 创建一个主版本库
+git clone backend common
+cd common
+
+# 2 将文件移到改目录专属文件目录下
+mkdir backend
+git mv src test backend
+git commit -m "backend directory created"
+
+# 3 导入另一个版本库
+cd common
+git remote add ui ../ui/
+git fetch ui
+
+# 4 将导入的文件移到该目录专属文件目录下
+git checkout -b uimaster ui/master
+mkdir ui
+git mv src test ui
+git commit -m "ui directory created"
+
+# 5 合并项目
+git checkout master
+git merge uimaster
+git log --graph --oneline
+git branch -d uimaster
+```
+
+### 21.5 何不换一种做法
+
+- 为什么不直接合并，跳过创建项目文件目录
+
+---
+
+## 第二十二章 外包长历史纪录
+
+- 新项目版本库占用较少的资源
+- 依然可以使用log、blame和annotate命令搜索历史版本提交
+
+### 22.1 概述
+
+- grafts文件配置
+- filter-branch操作
+- alternates操作
+
+### 22.2 使用要求
+
+- 一致切断时
+- 项目历史罕有需要
+- 提交的散列值不被在意
+
+### 22.3 工作流简述：“外包长历史记录”
+
+略。
+
+### 22.4 执行过程及其实现
+
+#### 22.4.1 外包项目历史
+
+```shell
+cd project.git
+git log --pretty=oneline
+
+# 1 创建移植标签
+git tag -a grafts/master
+# 2 创建一个克隆
+cd ..
+git clone --bare project.git temp-project.git
+
+# 3 通过grafts文件来转换历史
+cd temp-project.git
+echo 79puipipfs > info/grafts
+git log --pretty=oneline
+
+# 4 永久性的改变版本库
+git filter-branch --tag-name-filter cat --all
+
+# 5 缩小版本库
+git clone --bare temp-project.git new-project.git
+rm -rf temp-project.git
+cd new-project.git
+git gc --prune
+```
+
+#### 22.4.2 链接到当前活动版本库
+
+```shell
+# 1 克隆档案版本库
+git clone --bare project.git archive-project.git
+
+# 2 链接档案版本库
+cd new-project
+echo /gitrepos/archive-project.git/objects >> .git/objects/info/alternates
+
+# 3 连接到历史版本
+git show grafts/master --pretty=oneline
+tag grafts/master
+echo 686yiyi 79997ouououou > ./git/info/grafts
+git log --pretty=oneline
+```
+
+### 22.5 何不换一种做法
+
+- 为什么不获取档案版本库
+
+---
+
+## 第二十三章 与其他版本控制系统并行使用
+
+- 即使技术无法通信到中央版本库，也可以本地提交
+- 可以细粒度地划分版本，即使开发中的中间产品，版本管理成为开发过程中的安全保障
+- 可以专为产品原型何新功能开发工作一一分配对应的本地分支
+- Git更好的支持合并何变基操作
+
+- 中央版本中的新变化可以被导入本地Git版本库
+- 本地提交的修改可以被传输到中央版本库中
+
+### 23.1 概述
+
+略。
+
+### 23.2 使用要求
+
+- 支持乐观锁
+- 支持忽略文件和文件目录
+- 项目目录的灵活性
+
+### 23.3 工作流简介：“与其他版本控制系统并行使用”
+
+略。
+
+### 23.4 执行过程及其实现
+
+- 如何从版本控制器中获取初始代码 csv checkout命令
+- 版本控制系统中元数据是如何在何处储存的 CSV文件目录
+- 如何在版本管理中忽略某些文件 .csvignore文件
+- 如何在中央版本管理中得到最新的修改 csv add命令
+- 如何将修改提交到中央版本中 csv commit
+
+#### 23.4.1 初始部署版本库
+
+```shell
+# 1 创建同步版本库
+cd csvproject
+git init
+
+# 2 配置.gitignore文件
+echo CSV/ > .gitignore
+
+# 3 配置.csvignore文件
+echo .git >> .csvignore
+echo .gitignore >> .csvignore
+csv add .csvignore
+csv commit
+
+# 4 在同步版本库中添加文件
+git add .
+git commit -m "Initial import of CSV"
+
+# 5 在同步版本库中创建一个csv分支
+git checkout -b csv
+
+# 6 创建工作版本库
+cd ..
+git clone csvproject gitproject
+```
+
+#### 23.4.2 得到中央版本控制管理中的更新修改
+
+```shell
+# 1 将修改过的文件传输到同步版本库
+cd csvproject
+csv update
+git add -all .
+git commit -m "Changes from CSV"
+
+# 2 提交修改到工作版本库
+cd gitproject
+git fetch origin
+
+# 3 将修改应用到主分支
+git merge origin/csv
+```
+
+#### 23.4.3 将修改提交传输到中央版本控制系统
+
+```shell
+# 1 获得中央版本控制系统中最新的版本
+
+# 2 主分支上的修改传输到同步版本库
+cd gitproject
+git push
+
+# 3 在csv分支上接受修改
+cd csvproject
+git merge --no-commit --no-ff master
+
+# 4 将修改传输到中央版本控制系统
+csv commit
+git reset --hared HEAD
+
+# 5 从中央版本中获取更i性能
+csv update
+
+# 6 在csv分支执行提交操作
+git add .
+git commit -m "Changes from git recorded"
+
+# 7 更新工作版本库的主分支
+cd gitproject
+git fetch origin
+git merge origin/csv
+```
+
+### 20.5 何不换一种做法
+
+- 为什么不选择一个Git版本库
+
+---
+
+## 第二十四章 迁移到Git
+
+略。
+
+---
+
+## 第二十五章 还有一些其他任务
+
+略。
+
+---
+
+## 第二十六章 Git的缺点
+
+- 高复杂度
+- 复杂的子模块
+- 大型二进制文件的资源消耗
+- 版本库只能作为一个整体被处理
+- 版本库只能作为整体被授权
+- 能用于历史分析的图形化工具偏弱
